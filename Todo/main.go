@@ -51,7 +51,7 @@ retry:
 	inp, _ := reader.ReadString('\n')
 	args := strings.Split(inp, " ")
 	if len(args) < 1 {
-		fmt.Println("Please provide an input: 'add','list', or 'exit'.")
+		fmt.Println("Please provide an input: 'add','ls', or 'exit'.")
 		return
 	}
 
@@ -79,7 +79,7 @@ retry:
 		fmt.Println("Todo:", task)
 		goto retry
 
-	case "list":
+	case "ls":
 		// fmt.Println("i ran")
 		fileContent, _ := os.ReadFile(fileName)
 		var list []Todo
@@ -101,7 +101,7 @@ retry:
 		}
 
 	default:
-		fmt.Println("Please use add or list.")
+		fmt.Println("Please use add or ls.")
 	}
 
 	// writeTodos(todos)
@@ -116,6 +116,7 @@ func generateTodo(id int, task string) Todo {
 }
 
 func getLastId(el []Todo) int {
+	fmt.Println("el:",el)
 	if len(el) < 1 {
 		return 0
 	}
