@@ -1,56 +1,62 @@
 package main
 
 import (
-	// "bufio"
-
 	"bufio"
-	// "encoding/json"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
-	// "strings"
 )
 
 type Todo struct {
-	ID int `json:""`
-	Task string `json:""`
+	ID   int
+	Task string
 }
 
 var todos []Todo
 
 var fileName = "todosList"
 
+func getExisiting(todos []Todo) []Todo {
+	readF, _ := os.ReadFile(fileName)
+	var existingTodos []Todo
+	json.Unmarshal(readF, &existingTodos)
+
+	return existingTodos
+}
+
 func writeTodos(todos []Todo) {
-	// data, err := json.MarshalIndent(todos, "", " ")
-	file, err:= os.Create(fileName)
+	existingTodos := getExisiting(todos)
+
+	existingTodos = append(existingTodos, todos...)
+
+	data, err := json.MarshalIndent(existingTodos, "", " ")
 	if err != nil {
 		fmt.Println("Error creating file:", err)
 		return
 	}
-	// os.WriteFile(fileName, file, 0644)
 	// defer file.Close()
+	os.WriteFile(fileName, data, 0644)
 
-	for _, todo := range todos {
-		fmt.Fprintf(file, "(%v) %s", todo.ID, todo.Task)
-	}
+	// for _, todo := range todos {
+	// 	fmt.Fprintf(file, "(%v) %s", todo.ID, todo.Task)
+	// }
 }
-
-
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 
-	retry:
+retry:
 	fmt.Print("Enter something: ")
 	inp, _ := reader.ReadString('\n')
-	args := strings.Split(inp," ")
+	args := strings.Split(inp, " ")
 	if len(args) < 1 {
 		fmt.Println("Please provide an input: 'add','list', or 'exit'.")
 		return
 	}
 
 	input := args[0]
-	// fmt.Println("n : ",input)
+	// fmt.Println("INPUT IS",input)
 	switch strings.TrimSpace(input) {
 	case "add":
 		if len(args) < 2 {
@@ -62,9 +68,12 @@ func main() {
 		task := strings.Join(args[1:], " ")
 		// task = strings.TrimSpace(task)
 		// id := len(todos+1)
-		id := len(todos) + 1
 
-		todos = append(todos, generateTodo(id, task))
+		ex := getExisiting([]Todo{})
+
+		id := getLastId(ex) + 1
+
+		todos = []Todo{generateTodo(id, task)}
 		writeTodos(todos)
 		// fmt.Println(len(todos))
 		fmt.Println("Todo:", task)
@@ -72,66 +81,44 @@ func main() {
 
 	case "list":
 		// fmt.Println("i ran")
-		if len(todos) == 0 {
+		fileContent, _ := os.ReadFile(fileName)
+		var list []Todo
+		json.Unmarshal(fileContent, &list)
+
+		if len(list) == 0 {
 			fmt.Println("No todos yet.")
 			return
 			// continue
 		}
-		for _, todo := range todos {
-			fmt.Printf("%v. %s\n", todo.ID, todo.Task)
-		// writeTodos()
-		List, _ := os.ReadFile(fileName)
-		fmt.Printf(string(List))
-		return
-	
-	}
-	case "exit": {
-	fmt.Println("Goodbye.")
-	return
-	}
+		for _, ls := range list {
+			fmt.Printf("%v. %s\n", ls.ID, ls.Task)
+
+		}
+	case "exit":
+		{
+			fmt.Println("Goodbye.")
+			return
+		}
 
 	default:
 		fmt.Println("Please use add or list.")
 	}
 
-	writeTodos(todos)	
+	// writeTodos(todos)
 }
-
-
 
 func generateTodo(id int, task string) Todo {
 	return Todo{
 		ID:   id,
 		Task: task,
 	}
-	
+
 }
 
+func getLastId(el []Todo) int {
+	if len(el) < 1 {
+		return 0
+	}
 
-// func main() {
-// 	var todos []Todo
-
-// 	reader := bufio.NewReader(os.Stdin)
-// 	fmt.Print("Enter todo:")
-	
-// 	input, err := reader.ReadString('\n')
-// 	if err != nil {
-// 		fmt.Println("Error", err)
-// 		return
-// 	}
-
-// 	// newTodo := Todo {
-// 	// 	ID: 1,
-// 	// 	Task: input,
-// 	// }
-// 	todos = append(todos, generateTodo(1, input))
-
-// 	fmt.Println("Todo:",todos)
-// }
-
-// func generateTodo(id int, task string) Todo{
-// 	return Todo {
-// 		ID: id,
-// 		Task: task,
-// 	}
-// }
+	return el[len(el)-1].ID
+}
