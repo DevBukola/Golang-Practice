@@ -17,13 +17,14 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	files := []string{
 		"./ui/html/base.tmpl.html",
+		"./ui/html/partials/nav.tmpl.html",
 		"./ui/html/pages/home.tmpl.html",
 	}
 
 	data, err := template.ParseFiles(files...)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Internal server.", http.StatusInternalServerError)
+		http.Error(w, "Internal server error.", http.StatusInternalServerError)
 		return
 	}
 	// data.Execute(w, nil)
@@ -53,3 +54,12 @@ func snippetCreate(w http.ResponseWriter, r *http.Request) {
 
 	w.Write([]byte(`{"name": "Darasimi"}`))
 }
+
+// Serving single files
+// Sometimes you might want to serve a single file from within a handler. For this there’s the
+// http.ServeFile() function, which you can use like so:
+
+// func downloadHandler(w http.ResponseWriter, r *http.Request) {
+// 	http.ServeFile(w, r, "./ui/static/img/logo.png")
+// 	fmt.Fprint(w, "welcome")
+// }

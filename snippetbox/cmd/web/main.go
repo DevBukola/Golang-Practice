@@ -46,6 +46,10 @@ func main() {
 	Port := ":8000"
 	mux := http.NewServeMux()
 
+	fileserver := http.FileServer(http.Dir("./ui/static/"))
+
+	mux.Handle("/static/", http.StripPrefix("/static", fileserver))
+
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/snippet/view", snippetView)
 	mux.HandleFunc("/snippet/create", snippetCreate)
