@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Ascii Art Generator</title>
+  </head>
+  <body>
+    <form action="/ascii-art" method="POST">
+      <textarea name="text"></textarea>
+
+      <input name="banner" type="radio" value="standard" /><span>Standard</span>
+      <input name="banner" type="radio" value="shadow" /><span>Shadow</span>
+      <input name="banner" type="radio" value="thinkertoy" /><span
+        >Thinkertoy</span
+      >
+      <div id="btn">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+    <div id="output"><pre>{{.Result}}</pre></div>
+  </body>
+</html>
