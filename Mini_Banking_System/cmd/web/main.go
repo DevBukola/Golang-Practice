@@ -19,6 +19,7 @@ func main() {
 	mux.HandleFunc("/create-account", createAccountHandler)
 	mux.HandleFunc("/login", signInPageRendering)
 	mux.HandleFunc("/sign-in", signInHandler)
+	mux.HandleFunc("/transfer", transferFund)
 
 	fmt.Println("Server running on port", Port)
 	http.ListenAndServe(Port, mux)

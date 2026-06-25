@@ -5,12 +5,48 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 )
+	var balance = 70000.0
 
-func transferFund() {}
-func withdrawFund() {}
-func depositFund()  {}
-func checkBalance() {}
+
+func transferFund(w http.ResponseWriter, r *http.Request) {
+	amount := r.FormValue("transfer-amount")
+	if amount == "" {
+		http.Error(w, "Amount is required", 400)
+		return
+	}
+
+	//I am converting the amount which is a string here to a number so I can subtract it from the balance.
+	transferAmount, _ := strconv.ParseFloat(amount, 64)
+	balance = balance - transferAmount;
+	// fmt.Fprintf(w, "Transfer successful. New balance is: %.2f. Redirecting...", balance)
+	// http.Redirect(w,r, "/", 303)
+	 //statusSeeOther is for redirecting to another page after a POST request to prevent the user from resubmitting the form after refreshing the page.
+
+	 tmpl, err := template.ParseFiles("./ui/html/pages/success.tmpl.html")
+	 if err != nil {
+		 log.Println(err)
+		 http.Error(w, "Internal server error", 500)
+		 return
+	 }
+	 data := struct {
+		Balance float64
+	}{
+		Balance: balance,
+	 }
+	 
+	err = tmpl.ExecuteTemplate(w, "success", data)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Internal server error", 500)
+		return
+	}
+}
+// func withdrawFund() {}
+// func depositFund()  {}
+// func checkBalance() {}
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -22,6 +58,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	files := []string{
+		"./ui/html/pages/partials/nav.tmpl.html",
 		"./ui/html/pages/home.tmpl.html",
 		"./ui/html/base.tmpl.html",
 	}
@@ -32,7 +69,17 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal server error", 500)
 		return
 	}
-	_ = tmpl.ExecuteTemplate(w, "base", nil)
+
+	today := time.Now().Format("02 January 2006")
+
+	data := struct {
+		Date    string
+		Balance float64
+	}{
+		Date:    today,
+		Balance: balance,
+	}
+	_ = tmpl.ExecuteTemplate(w, "base", data)
 }
 
 func signupPageRendering(w http.ResponseWriter, r *http.Request) {

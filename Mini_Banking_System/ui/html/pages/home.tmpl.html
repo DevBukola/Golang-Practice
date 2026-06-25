@@ -1,7 +1,57 @@
 {{define "title"}}Home{{end}} {{define "main"}}
-<h2>Latest page</h2>
-<p>There is nothing here yet</p>
-<a href="/signup">Don't have an account? <span>Sign up here</span></a>
-<a href="/login">Already have an account? <span>Log in</span></a>
-<p>Hey</p>
+<div id="section-container">
+  <div class="balance-wrapper">
+    <div class="balance-container">
+      <p class="balance">Your balance</p>
+      <p class="balance-date">As of <span></span>{{.Date}}</p>
+    </div>
+    <div class="balance-amount">₦{{.Balance}}</div>
+  </div>
+
+  <div>
+    <div class="features-wrapper">
+      <div class="feature-transfer">
+        <form action="/transfer" method="POST">
+          <label for="transfer-to">Transfer to</label>
+          <input
+            type="text"
+            id="transfer-to"
+            name="transfer-to"
+            placeholder="Enter recipient's account number"
+          />
+          <label for="transfer-amount">Amount</label>
+          <input type="text" id="transfer-amount" name="transfer-amount" />
+          <button type="submit" id="transfer-button">Transfer</button>
+        </form>
+      </div>
+
+      <div class="feature-deposit">
+        <form action="/deposit" method="POST">
+          <label for="deposit-amount">Deposit Amount</label>
+          <input
+            type="text"
+            id="deposit-amount"
+            name="deposit-amount"
+            placeholder="Enter deposit amount"
+          />
+          <button type="submit" id="deposit-button">Deposit</button>
+        </form>
+      </div>
+
+      <div class="feature-withdraw">
+        <form action="/withdraw" method="POST">
+          <label for="withdraw-amount">Withdraw Amount</label>
+          <input
+            type="text"
+            id="withdraw-amount"
+            name="withdraw-amount"
+            placeholder="Enter withdrawal amount"
+          />
+          <button type="submit" id="withdraw-button">Withdraw</button>
+        </form>
+      </div>
+    </div>
+    <aside>hey</aside>
+  </div>
+</div>
 {{end}}
