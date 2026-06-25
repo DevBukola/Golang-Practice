@@ -18,6 +18,8 @@ form {
 
 input {
   padding: 10px 5px;
+  border-radius: 7px;
+  border: 1.5px solid gray;
 }
 
 button {
