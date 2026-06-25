@@ -30,3 +30,9 @@ button {
     padding: 12px;
     cursor: pointer;
 }
+
+@media(max-width: 768px) {
+    form {
+   margin: 10% 3%;
+}
+}
