@@ -8,13 +8,11 @@
     <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
-    <form action="/login" method="GET">
-        <label for="">First Name</label>
-        <input type="text" placeholder="Kindly enter your first name">
-        <label for="">Last Name</label>
-        <input type="text" placeholder="Enter your surname here">
-        <label for="">Email</label>
-        <input type="email" placeholder="Please enter your email">
+    <form action="/sign-in" method="POST">
+        <label for="">Username</label>
+        <input type="text" placeholder="Enter your username here" name="username">
+        <label for="">Password</label>
+        <input type="text" placeholder="Please enter your password" name="password">
 
         <button type="submit">Sign In</button>
     </form>

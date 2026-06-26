@@ -1,18 +1,9 @@
 {{define "nav"}}
 <nav>
-  <p class="greetings-welcome">Log in to proceed</p>
-  <form class="signin">
-    <input
-      type="text"
-      placeholder="user"
-      class="login-input login-input-user"
-    />
-    <input
-      type="password"
-      placeholder="password"
-      class="login-input login-input-password"
-    />
-    <button class="login-button">Log in</button>
-  </form>
+  <p class="greetings-welcome">Welcome, {{.Username}}!</p>
+  <div class="signin">
+    <div>{{.Username}}</div>
+     <div>{{.AccountNumber}}</div>
+  </div>
 </nav>
 {{end}}

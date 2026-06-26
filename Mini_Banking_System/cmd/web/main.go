@@ -16,10 +16,11 @@ func main() {
 
 	mux.HandleFunc("/", homeHandler)
 	mux.HandleFunc("/signup", signupPageRendering)
-	mux.HandleFunc("/create-account", createAccountHandler)
+	mux.HandleFunc("/logout", logOutHandler)
 	mux.HandleFunc("/login", signInPageRendering)
 	mux.HandleFunc("/sign-in", signInHandler)
 	mux.HandleFunc("/transfer", transferFund)
+	mux.HandleFunc("/deposit", depositFund)
 
 	fmt.Println("Server running on port", Port)
 	http.ListenAndServe(Port, mux)
