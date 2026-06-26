@@ -12,15 +12,19 @@
     <div class="features-wrapper">
       <div class="feature-transfer">
         <form action="/transfer" method="POST">
-          <label for="transfer-to">Transfer to</label>
-          <input
-            type="text"
-            id="transfer-to"
-            name="transfer-to"
-            placeholder="Enter recipient's account number"
-          />
-          <label for="transfer-amount">Amount</label>
-          <input type="text" id="transfer-amount" name="transfer-amount" />
+          <div class="label">
+            <label for="transfer-to">Transfer to</label>
+            <input
+              type="text"
+              id="transfer-to"
+              name="transfer-to"
+              placeholder="Enter recipient's account number"
+            />
+          </div>
+          <div class="label">
+            <label for="transfer-amount">Amount</label>
+            <input type="text" id="transfer-amount" name="transfer-amount" />
+          </div>
           <button type="submit" id="transfer-button">Transfer</button>
         </form>
       </div>

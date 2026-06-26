@@ -100,3 +100,17 @@ nav {
   justify-self: center;
   width: 50%;
 }
+
+.feature-transfer form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1e3a8a;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+}
